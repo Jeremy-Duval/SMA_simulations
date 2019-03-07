@@ -214,7 +214,7 @@ number-cow
 number-cow
 0
 100
-10.0
+25.0
 1
 1
 NIL
