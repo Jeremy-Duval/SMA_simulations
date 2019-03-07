@@ -50,7 +50,7 @@ to setup
 end
 
 to go
-  grow-grass-and-weeds
+  grow-grass
   ask cows [
     search-for-grass
     set-energy-color
@@ -96,7 +96,9 @@ to eat-cow
   let prey one-of cows-here                    ; grab a random sheep
   if prey != nobody  [
     set energy energy + ([energy] of prey) * 9 / 10   ; get energy from eating
-    ask prey [ die ]  ; kill the prey
+    ask prey ; kill the prey
+    [ set count-cow count-cow - 1
+      die ]
   ]
 end
 
@@ -140,7 +142,7 @@ to death-wolf
     die]
 end
 
-to grow-grass-and-weeds
+to grow-grass
   ask patches [
     if pcolor = brown [
       if random 100 < grass-grow-rate
