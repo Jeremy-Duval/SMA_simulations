@@ -31,6 +31,7 @@ to setup
     setxy random-xcor random-ycor
     set size 5 ;; easier to see
     set energy random 10 ;; start with a random amt. of energy
+    set-energy-color
   ]
 
   ;; randomly distribute wolf
@@ -40,6 +41,7 @@ to setup
     setxy random-xcor random-ycor
     set size 5 ;; easier to see
     set energy random 10 ;; start with a random amt. of energy
+    set-energy-color
   ]
 
 
@@ -50,15 +52,15 @@ end
 to go
   grow-grass-and-weeds
   ask cows [
-    set-energy-color
     search-for-grass
+    set-energy-color
     reproduce-cow
     death-cow
   ]
 
   ask wolfs [
-    set-energy-color
     search-for-cow
+    set-energy-color
     reproduce-wolf
     death-wolf
   ]
@@ -107,18 +109,20 @@ end
 to reproduce-cow
   ;; give birth to a new cow, but it takes lots of energy
   if energy > birth-threshold-cow
-    [ set energy energy / 2
+    [ set energy birth-threshold-cow / 2
       hatch 1 [ fd 1 ]
       set count-cow count-cow + 1
+      set-energy-color
   ]
 end
 
 to reproduce-wolf
   ;; give birth to a new cow, but it takes lots of energy
   if energy > birth-threshold-wolf
-    [ set energy energy / 2
+    [ set energy birth-threshold-wolf / 2
       hatch 1 [ fd 1 ]
       set count-wolf count-wolf + 1
+      set-energy-color
   ]
 end
 
@@ -151,7 +155,10 @@ to set-energy-color
     [ set color yellow ]
     [ ifelse energy < 15
       [ set color orange ]
-      [ set color red ]
+      [ ifelse energy < 20
+        [set color red ]
+        [set color magenta]
+      ]
     ]
   ]
 end
@@ -207,7 +214,7 @@ number-cow
 number-cow
 0
 100
-100.0
+10.0
 1
 1
 NIL
@@ -256,7 +263,7 @@ grass-grow-rate
 grass-grow-rate
 0
 100
-0.0
+1.0
 1
 1
 NIL
@@ -327,7 +334,7 @@ birth-threshold-wolf
 birth-threshold-wolf
 0
 100
-20.0
+15.0
 1
 1
 NIL
